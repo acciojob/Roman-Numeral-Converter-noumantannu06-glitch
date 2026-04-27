@@ -1,28 +1,31 @@
 function convertToRoman(num) {
-  // Your existing function (unchanged - it passes logic tests)
-  const symbols = [['M',1000],['D',500],['C',100],['L',50],['X',10],['V',5],['I',1]];
-  let result = '';
-  for (let [symbol, value] of symbols) {
-    while (num >= value) {
-      result += symbol;
-      num -= value;
+  if (num <= 0) return "";
+
+  // Combined symbols and subtractive pairs
+  const lookup = [
+    ['M', 1000],
+    ['CM', 900],
+    ['D', 500],
+    ['CD', 400],
+    ['C', 100],
+    ['XC', 90],
+    ['L', 50],
+    ['XL', 40],
+    ['X', 10],
+    ['IX', 9],
+    ['V', 5],
+    ['IV', 4],
+    ['I', 1]
+  ];
+
+  let roman = "";
+
+  for (let i = 0; i < lookup.length; i++) {
+    while (num >= lookup[i][1]) {
+      roman += lookup[i][0];
+      num -= lookup[i][1];
     }
   }
-  return result;
+
+  return roman;
 }
-
-// Add DOM event listener if missing
-document.addEventListener('DOMContentLoaded', function() {
-  const input = document.getElementById('number');
-  const button = document.getElementById('convert-btn');
-  const output = document.getElementById('output');
-
-  button.addEventListener('click', function() {
-    const num = parseInt(input.value);
-    if (isNaN(num) || num < 0 || num > 100000) {
-      output.textContent = 'Please enter a valid number between 0 and 100000';
-    } else {
-      output.textContent = convertToRoman(num);
-    }
-  });
-});
